@@ -41,4 +41,4 @@ async def resolver():
 async def test_resolve_and_load(resolver, did, caplog):
     """Test resolution and schema parsing."""
     caplog.set_level(logging.INFO)
-    await asyncio.wait_for(resolver.resolve(None, did), timeout=20)
+    await asyncio.wait_for(resolver.resolve(None, did), timeout=10)
