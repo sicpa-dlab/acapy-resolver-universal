@@ -41,7 +41,4 @@ async def resolver():
 async def test_resolve_and_load(resolver, did, caplog):
     """Test resolution and schema parsing."""
     caplog.set_level(logging.INFO)
-    try:
-        await asyncio.wait_for(resolver.resolve(None, did), timeout=60)
-    except asyncio.CancelledError:
-        raise Exception("Resolution timed out.")
+    await asyncio.wait_for(resolver.resolve(None, did), timeout=20)

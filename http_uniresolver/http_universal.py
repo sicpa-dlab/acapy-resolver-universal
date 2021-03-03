@@ -70,7 +70,7 @@ class HTTPUniversalDIDResolver(BaseDIDResolver):
             async with session.get(f"{self._endpoint}/{did}") as resp:
                 if resp.status == 200:
                     doc = await resp.json()
-                    LOGGER.info("Retrieved doc: %s", doc)
+                    LOGGER.info("Retrieved doc: %s", doc["didDocument"])
                     return DIDDoc.deserialize(doc["didDocument"])
                 if resp.status == 404:
                     raise DIDNotFound(f"{did} not found by {self.__class__.__name__}")
