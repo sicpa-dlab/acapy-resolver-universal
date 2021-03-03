@@ -2,6 +2,7 @@
 
 import asyncio
 import json
+import logging
 from pathlib import Path
 
 import pytest
@@ -31,10 +32,16 @@ async def resolver():
     yield resolver
 
 
+@pytest.mark.int
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
     "did",
     TEST_DIDS
 )
-async def test_resolve_and_load(resolver, did):
-    assert await asyncio.wait_for(resolver.resolve(None, did), timeout=30)
+async def test_resolve_and_load(resolver, did, caplog):
+    """Test resolution and schema parsing."""
+    caplog.set_level(logging.INFO)
+    try:
+        await asyncio.wait_for(resolver.resolve(None, did), timeout=60)
+    except asyncio.CancelledError:
+        raise Exception("Resolution timed out.")
