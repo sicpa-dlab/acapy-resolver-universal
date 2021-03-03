@@ -28,7 +28,7 @@ class HTTPUniversalDIDResolver(BaseDIDResolver):
         """Preform setup, populate supported method list, configuration."""
         config_file = os.environ.get(
             "UNI_RESOLVER_CONFIG",
-            Path(__file__).parent / "universal_resolver.yml"
+            Path(__file__).parent / "default_config.yml"
         )
         try:
             with open(config_file) as input_yaml:
