@@ -1,3 +1,0 @@
-aries-cloudagent@git+https://github.com/rd-dlab/aries-cloudagent-python@aec9f65b
-pyyaml~=5.3.1
-flake8

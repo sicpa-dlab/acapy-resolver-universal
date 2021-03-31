@@ -1,6 +1,7 @@
 """HTTP Universal DID Resolver."""
 
 import logging
+import json
 import os
 from pathlib import Path
 from typing import Sequence
@@ -70,7 +71,7 @@ class HTTPUniversalDIDResolver(BaseDIDResolver):
             async with session.get(f"{self._endpoint}/{did}") as resp:
                 if resp.status == 200:
                     doc = await resp.json()
-                    LOGGER.info("Retrieved doc: %s", doc["didDocument"])
+                    LOGGER.info("Retrieved doc: %s", json.dumps(doc["didDocument"], indent=2))
                     return DIDDoc.deserialize(doc["didDocument"])
                 if resp.status == 404:
                     raise DIDNotFound(f"{did} not found by {self.__class__.__name__}")
