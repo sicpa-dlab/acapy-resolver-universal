@@ -123,9 +123,7 @@ async def test_resolve(profile, resolver, mock_client_session):
     mock_client_session.response = MockResponse(
         200, {"didDocument": {"id": "did:example:123"}}
     )
-    doc: DIDDoc = await resolver.resolve(
-        profile, "did:sov:WRfXPg8dantKVubE3HX8pw"
-    )
+    doc: DIDDoc = await resolver.resolve(profile, "did:sov:WRfXPg8dantKVubE3HX8pw")
     assert doc.id == "did:example:123"
 
 

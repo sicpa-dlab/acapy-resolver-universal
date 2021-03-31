@@ -13,9 +13,7 @@ from aries_cloudagent.resolver.base import ResolverError
 CONFIG_PATH = Path(__file__).parent / "uniresolver_config.json"
 TEST_CONFIG = json.loads(CONFIG_PATH.read_text())
 TEST_DIDS = [
-    did
-    for driver in TEST_CONFIG["drivers"]
-    for did in driver["testIdentifiers"]
+    did for driver in TEST_CONFIG["drivers"] for did in driver["testIdentifiers"]
 ]
 
 
@@ -35,10 +33,7 @@ async def resolver():
 
 @pytest.mark.int
 @pytest.mark.asyncio
-@pytest.mark.parametrize(
-    "did",
-    TEST_DIDS
-)
+@pytest.mark.parametrize("did", TEST_DIDS)
 async def test_resolve_and_load(resolver, did, caplog):
     """Test resolution and schema parsing."""
     caplog.set_level(logging.INFO)
