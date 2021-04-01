@@ -14,24 +14,29 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.6
-    - name: Cache poetry install
+    - name: Cache python environment
+      id: cache-env
+      uses: actions/cache@v2
+      with:
+          path: ${{ env.pythonLocation }}
+          key: ${{ runner.os }}-deploy-${{ hashFiles('poetry.lock') }}
+    - name: Install poetry
+      if: steps.cache-env.outputs.cache-hit != 'true'
+      run: |
+          pip install poetry==1.1.5
+    - name: Setup poetry environment
+      id: setup-poetry-env
+      run: |
+          poetry env use $(which python)
+          echo "::set-output name=poetry-env::$(poetry env info --path)"
+    - name: Cache poetry environment
       id: cache-poetry
       uses: actions/cache@v2
       with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-1.1.5
-    - name: Install poetry
-      if: steps.cache-poetry.outputs.cache-hit != 'true'
-      run: |
-          pip install poetry==1.1.5
-    - name: Cache dependencies
-      id: cache-deps
-      uses: actions/cache@v2
-      with:
-          path: ~/.cache/pypoetry
-          key: ${{ runner.os }}-poetry-3.6-${{ hashFiles('poetry.lock') }}
+          path: ${{ steps.setup-poetry-env.outputs.poetry-env }}
+          key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
     - name: Install dependencies
-      if: steps.cache-deps.outputs.cache-hit != 'true'
+      if: steps.cache-poetry.outputs.cache-hit != 'true'
       run: |
           poetry install
     - name: Sanity check (run tests)
