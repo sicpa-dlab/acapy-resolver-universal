@@ -15,14 +15,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Cache black install
-        id: cache-black
+      - name: Cache python environment
+        id: cache-env
         uses: actions/cache@v2
         with:
-            path: ~/.cache/pip
-            key: ${{ runner.os }}-pip-${{ matrix.python-version }}-20.8b1
+            path: ${{ env.pythonLocation }}
+            key: ${{ runner.os }}-formatting-black-20.8b1
       - name: Install black
-        if: steps.cache-black.outputs.cache-hit != 'true'
+        if: steps.cache-env.outputs.cache-hit != 'true'
         run: |
             pip install black==20.8b1
       - name: Black Format Check
@@ -42,24 +42,18 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Cache poetry install
-      id: cache-poetry
+    - name: Cache python environment
+      id: cache-env
       uses: actions/cache@v2
       with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-1.1.5
+          path: ${{ env.pythonLocation }}
+          key: ${{ runner.os }}-testing-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
     - name: Install poetry
-      if: steps.cache-poetry.outputs.cache-hit != 'true'
+      if: steps.cache-env.outputs.cache-hit != 'true'
       run: |
           pip install poetry==1.1.5
-    - name: Cache dependencies
-      id: cache-deps
-      uses: actions/cache@v2
-      with:
-          path: ~/.cache/pypoetry
-          key: ${{ runner.os }}-poetry-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
     - name: Install dependencies
-      if: steps.cache-deps.outputs.cache-hit != 'true'
+      if: steps.cache-env.outputs.cache-hit != 'true'
       run: |
           poetry install
     - name: Lint with flake8
