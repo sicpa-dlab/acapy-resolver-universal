@@ -1,6 +1,7 @@
 """HTTP Universal DID Resolver."""
 
 import logging
+import json
 import os
 from pathlib import Path
 from typing import Sequence
@@ -11,7 +12,10 @@ from aries_cloudagent.config.injection_context import InjectionContext
 from aries_cloudagent.connections.models.diddoc_v2 import DIDDoc
 from aries_cloudagent.core.profile import Profile
 from aries_cloudagent.resolver.base import (
-    BaseDIDResolver, DIDNotFound, ResolverError, ResolverType
+    BaseDIDResolver,
+    DIDNotFound,
+    ResolverError,
+    ResolverType,
 )
 from aries_cloudagent.resolver.did import DID
 
@@ -30,8 +34,7 @@ class HTTPUniversalDIDResolver(BaseDIDResolver):
     async def setup(self, _context: InjectionContext):
         """Preform setup, populate supported method list, configuration."""
         config_file = os.environ.get(
-            "UNI_RESOLVER_CONFIG",
-            Path(__file__).parent / "default_config.yml"
+            "UNI_RESOLVER_CONFIG", Path(__file__).parent / "default_config.yml"
         )
         try:
             with open(config_file) as input_yaml:
@@ -70,7 +73,9 @@ class HTTPUniversalDIDResolver(BaseDIDResolver):
             async with session.get(f"{self._endpoint}/{did}") as resp:
                 if resp.status == 200:
                     doc = await resp.json()
-                    LOGGER.info("Retrieved doc: %s", doc["didDocument"])
+                    LOGGER.info(
+                        "Retrieved doc: %s", json.dumps(doc["didDocument"], indent=2)
+                    )
                     return DIDDoc.deserialize(doc["didDocument"])
                 if resp.status == 404:
                     raise DIDNotFound(f"{did} not found by {self.__class__.__name__}")
