@@ -57,6 +57,7 @@ jobs:
       run: |
           pip install poetry==1.1.5
     - name: Setup poetry environment
+      id: setup-poetry-env
       run: |
           poetry env use $(which python)
           echo "::set-output name=poetry-env::$(poetry env info --path)"
@@ -64,7 +65,7 @@ jobs:
       id: cache-poetry
       uses: actions/cache@v2
       with:
-          path: ${{ steps.pip-cache.outputs.poetry-env }}
+          path: ${{ steps.setup-poetry-env.outputs.poetry-env }}
           key: ${{ runner.os }}-poetry-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
     - name: Install dependencies
       if: steps.cache-poetry.outputs.cache-hit != 'true'
