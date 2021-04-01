@@ -56,8 +56,18 @@ jobs:
       if: steps.cache-env.outputs.cache-hit != 'true'
       run: |
           pip install poetry==1.1.5
+    - name: Setup poetry environment
+      run: |
+          poetry env use $(which python)
+          echo "::set-output name=poetry-env::$(poetry env info --path)"
+    - name: Cache poetry environment
+      id: cache-poetry
+      uses: actions/cache@v2
+      with:
+          path: ${{ steps.pip-cache.outputs.poetry-env }}
+          key: ${{ runner.os }}-poetry-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
     - name: Install dependencies
-      if: steps.cache-env.outputs.cache-hit != 'true'
+      if: steps.cache-poetry.outputs.cache-hit != 'true'
       run: |
           poetry install
     - name: Lint with flake8
