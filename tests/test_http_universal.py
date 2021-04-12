@@ -5,7 +5,6 @@ from typing import Dict, Union
 import pytest
 from asynctest import mock as async_mock
 
-from aries_cloudagent.connections.models.diddoc_v2 import DIDDoc
 from aries_cloudagent.resolver.base import DIDNotFound, ResolverError
 from http_uniresolver import http_universal as test_module
 from http_uniresolver.http_universal import HTTPUniversalDIDResolver
@@ -121,9 +120,10 @@ def mock_client_session():
 @pytest.mark.asyncio
 async def test_resolve(profile, resolver, mock_client_session):
     mock_client_session.response = MockResponse(
-        200, {"didDocument": {"id": "did:example:123"}}
+        200, {"didDocument": {"id": "did:example:123",
+                              "@context": "https://www.w3.org/ns/did/v1"}}
     )
-    doc: DIDDoc = await resolver.resolve(profile, "did:sov:WRfXPg8dantKVubE3HX8pw")
+    doc = await resolver.resolve(profile, "did:sov:WRfXPg8dantKVubE3HX8pw")
     assert doc.id == "did:example:123"
 
 
