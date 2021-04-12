@@ -9,7 +9,6 @@ from typing import Sequence
 import aiohttp
 import yaml
 from aries_cloudagent.config.injection_context import InjectionContext
-from aries_cloudagent.connections.models.diddoc_v2 import DIDDoc
 from aries_cloudagent.core.profile import Profile
 from aries_cloudagent.resolver.base import (
     BaseDIDResolver,
@@ -17,7 +16,6 @@ from aries_cloudagent.resolver.base import (
     ResolverError,
     ResolverType,
 )
-from aries_cloudagent.resolver.did import DID
 
 LOGGER = logging.getLogger(__name__)
 
@@ -67,16 +65,16 @@ class HTTPUniversalDIDResolver(BaseDIDResolver):
         """
         return self._supported_methods
 
-    async def _resolve(self, _profile: Profile, did: DID) -> DIDDoc:
+    async def _resolve(self, _profile: Profile, did: str) -> dict:
         """Resolve DID through remote universal resolver."""
+
         async with aiohttp.ClientSession() as session:
             async with session.get(f"{self._endpoint}/{did}") as resp:
                 if resp.status == 200:
                     doc = await resp.json()
-                    LOGGER.info(
-                        "Retrieved doc: %s", json.dumps(doc["didDocument"], indent=2)
-                    )
-                    return DIDDoc.deserialize(doc["didDocument"])
+                    did_doc = doc["didDocument"]
+                    LOGGER.info("Retrieved doc: %s", json.dumps(did_doc, indent=2))
+                    return did_doc
                 if resp.status == 404:
                     raise DIDNotFound(f"{did} not found by {self.__class__.__name__}")
 
