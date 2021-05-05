@@ -6,7 +6,7 @@ Running ACA-Py with the http-uniresolver Plugin
 To build the container:
 
 ```sh
-$ docker build --tag acapy-http-uniresolver .
+$ docker build -f docker/Dockerfile --tag acapy-http-uniresolver .
 ```
 
 To start an agent using the default configuration:

@@ -1,0 +1,27 @@
+version: '3'
+services:
+
+  resolver:
+    image: acapy-http-uniresolver
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "3001:3001"
+
+  demo:
+    container_name: juggernaut
+    build:
+      context: runner
+      dockerfile: Dockerfile
+    environment:
+      - WAIT_BEFORE_HOSTS=3
+      - WAIT_HOSTS=resolver:3000
+      - WAIT_HOSTS_TIMEOUT=60
+      - WAIT_SLEEP_INTERVAL=1
+      - WAIT_HOST_CONNECT_TIMEOUT=30
+      - REQUESTER=http://requester:3001
+    depends_on:
+      - resolver
+    volumes:
+      - ./runner:/usr/src/app/runner:z
