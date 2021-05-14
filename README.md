@@ -9,7 +9,7 @@ Resolver instance over HTTP.
 First, install this plugin into your environment.
 
 ```sh
-$ pip install git+https://github.com/rd-dlab/aries-acapy-plugin-http-uniresolver.git
+$ pip install git+https://github.com/sicpa-dlab/acapy-resolver-universal.git
 ```
 
 When starting up ACA-Py, load the plugin along with any other startup
