@@ -13,13 +13,13 @@ async def setup(context: InjectionContext, endpoint: str = None, methods: list =
     """Setup the plugin."""
     # Load config
     if endpoint or methods:
-        with open(CONFIG_FILE, 'r') as default_config:
+        with open(CONFIG_FILE, "r") as default_config:
             config = yaml.safe_load(default_config)
         if endpoint:
             config["endpoint"] = endpoint
         if methods:
             config["methods"] = methods
-        with open(CONFIG_FILE, 'w') as default_config:
+        with open(CONFIG_FILE, "w") as default_config:
             default_config.write(yaml.safe_dump(config))
 
     # Inject plugin
