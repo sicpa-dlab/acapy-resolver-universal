@@ -1,6 +1,4 @@
-plugins:
-  - plugin_name: Universal Resolver
-    local_directory: http_uniresolver
+http_uniresolver:
     methods:
       - "sov"
       - "abt"

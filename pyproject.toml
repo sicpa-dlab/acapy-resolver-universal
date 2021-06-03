@@ -15,9 +15,15 @@ repository="https://github.com/sicpa-dlab/aries-acapy-plugin-http-uniresolver"
 
 [tool.poetry.dependencies]
 python = "^3.6.9"
-aries-cloudagent = {git = "https://github.com/hyperledger/aries-cloudagent-python", rev = "main"}
 PyYAML = "~=5.4"
 ecdsa = "~=0.16.1"
+
+
+[tool.poetry.dependencies.aries-cloudagent]
+    git = "https://github.com/sicpa-dlab/aries-cloudagent-python"
+    rev = "feature/plugin-config-by-file"
+    # Temporarily use extras; these should go away once fixed in master
+    extras = ["indy", "bbs"]
 
 
 [tool.poetry.dev-dependencies]

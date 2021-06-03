@@ -6,19 +6,25 @@ import yaml
 import os
 from .http_universal import HTTPUniversalDIDResolver
 
-CONFIG_FILE = "aries-acapy-plugin-http-uniresolver/http_uniresolver/default_config.yml"
+CONFIG_FILE = "http_uniresolver/default_config.yml"
 
 
-async def setup(context: InjectionContext, endpoint: str = None, methods: list = None):
+async def setup(context: InjectionContext):
     """Setup the plugin."""
     # Load config
-    if endpoint or methods:
+    conf = context.settings.get("plugin_conf")
+    if conf:
         with open(CONFIG_FILE, "r") as default_config:
             config = yaml.safe_load(default_config)
+
+        endpoint = conf.get("endpoint")
         if endpoint:
             config["endpoint"] = endpoint
+
+        methods = conf.get("methods")
         if methods:
             config["methods"] = methods
+
         with open(CONFIG_FILE, "w") as default_config:
             default_config.write(yaml.safe_dump(config))
 
