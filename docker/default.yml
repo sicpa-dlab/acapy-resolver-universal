@@ -5,7 +5,9 @@ admin: [0.0.0.0, 3001]
 admin-insecure-mode: true
 
 # Load plugin + config by file
-plugin-config: plugin-config.yaml
+plugin:
+  - http_uniresolver
+plugins-config: plugin-config.yaml
 
 # Transport
 inbound-transport:

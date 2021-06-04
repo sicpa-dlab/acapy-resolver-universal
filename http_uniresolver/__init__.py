@@ -12,7 +12,7 @@ CONFIG_FILE = "http_uniresolver/default_config.yml"
 async def setup(context: InjectionContext):
     """Setup the plugin."""
     # Load config
-    conf = context.settings.get("plugin_conf")
+    conf = context.settings.get("plugin_config")
     if conf:
         with open(CONFIG_FILE, "r") as default_config:
             config = yaml.safe_load(default_config)

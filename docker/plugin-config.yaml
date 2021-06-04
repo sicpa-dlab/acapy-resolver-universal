@@ -1,5 +1,6 @@
 http_uniresolver:
     methods:
+      - "sov"
       - "abt"
       - "btcr"
       - "erc725"
