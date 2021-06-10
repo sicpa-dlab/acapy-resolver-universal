@@ -124,7 +124,7 @@ async def test_resolve(profile, resolver, mock_client_session):
                               "@context": "https://www.w3.org/ns/did/v1"}}
     )
     doc = await resolver.resolve(profile, "did:sov:WRfXPg8dantKVubE3HX8pw")
-    assert doc.id == "did:example:123"
+    assert doc.get("id") == "did:example:123"
 
 
 @pytest.mark.asyncio
