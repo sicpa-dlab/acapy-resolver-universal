@@ -16,7 +16,53 @@ from aries_cloudagent.resolver.base import (
 )
 
 LOGGER = logging.getLogger(__name__)
-CONFIG_FILE = "http_uniresolver/default_config.json"
+DEFAULT_CONFIGURATION = {
+    "endpoint": "https://dev.uniresolver.io/1.0/identifiers",
+    "methods": [
+        "sov",
+        "abt",
+        "btcr",
+        "erc725",
+        "dom",
+        "stack",
+        "ethr",
+        "web",
+        "v1",
+        "key",
+        "ipid",
+        "jolo",
+        "hacera",
+        "elem",
+        "seraphid",
+        "github",
+        "ccp",
+        "work",
+        "ont",
+        "kilt",
+        "evan",
+        "echo",
+        "factom",
+        "dock",
+        "trust",
+        "io",
+        "bba",
+        "bid",
+        "schema",
+        "ion",
+        "ace",
+        "gatc",
+        "unisot",
+        "icon",
+        "vaa",
+        "cy",
+        "nacl",
+        "sirius",
+        "mpg",
+        "trustbloc",
+        "hcr",
+        "neoid",
+    ],
+}
 
 
 class HTTPUniversalDIDResolver(BaseDIDResolver):
@@ -31,11 +77,8 @@ class HTTPUniversalDIDResolver(BaseDIDResolver):
     async def setup(self, _context: InjectionContext):
         """Preform setup, populate supported method list, configuration."""
         plugin_conf = _context.settings.get("plugin_config", {}).get("http_uniresolver")
-        with open(
-            CONFIG_FILE,
-        ) as f:
-            # Default configuration
-            configuration = json.load(f)
+
+        configuration = DEFAULT_CONFIGURATION
         if plugin_conf:
             configuration.update(plugin_conf)
 

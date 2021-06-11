@@ -18,9 +18,8 @@ python = "^3.6.9"
 ecdsa = "~=0.16.1"
 
 
-[tool.poetry.dependencies.aries-cloudagent]
-    git = "https://github.com/hyperledger/aries-cloudagent-python"
-    rev = "main"
+aries-cloudagent = {git = "https://github.com/hyperledger/aries-cloudagent-python", rev = "main"}
+
 
 
 [tool.poetry.dev-dependencies]
