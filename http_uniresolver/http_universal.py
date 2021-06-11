@@ -31,7 +31,9 @@ class HTTPUniversalDIDResolver(BaseDIDResolver):
     async def setup(self, _context: InjectionContext):
         """Preform setup, populate supported method list, configuration."""
         plugin_conf = _context.settings.get("plugin_config", {}).get("http_uniresolver")
-        with open(CONFIG_FILE,) as f:
+        with open(
+            CONFIG_FILE,
+        ) as f:
             # Default configuration
             configuration = json.load(f)
         if plugin_conf:
