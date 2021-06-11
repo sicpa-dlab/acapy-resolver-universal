@@ -108,12 +108,10 @@ pyjwt = ">=1.7.1,<1.8.0"
 pyld = ">=2.0.3,<2.1.0"
 pynacl = ">=1.4.0,<1.5.0"
 python-dateutil = ">=2.8.1,<2.9.0"
-python3-indy = {version = ">=1.11.1", optional = true, markers = "extra == \"indy\""}
 pytz = ">=2021.1,<2022.0"
 pyyaml = ">=5.4.0,<5.5.0"
 requests = ">=2.25.0,<2.26.0"
 unflatten = ">=0.1,<1.0"
-ursa-bbs-signatures = {version = ">=1.0.1,<1.1.0", optional = true, markers = "extra == \"bbs\""}
 
 [package.extras]
 bbs = ["ursa-bbs-signatures (>=1.0.1,<1.1.0)"]
@@ -124,7 +122,7 @@ uvloop = ["uvloop"]
 type = "git"
     url = "https://github.com/hyperledger/aries-cloudagent-python"
     reference = "main"
-resolved_reference = "78a7e1145d2229c2059ee5ff3bc00f375bd127ab"
+resolved_reference = "319a2ff30d9ddd4a9fdb4b3ab69d1946c110c21b"
 
 [[package]]
 name = "async-timeout"
@@ -776,20 +774,6 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
 six = ">=1.5"
 
 [[package]]
-name = "python3-indy"
-version = "1.16.0-post-54"
-description = "This is the official SDK for Hyperledger Indy (https://www.hyperledger.org/projects), which provides a distributed-ledger-based foundation for self-sovereign identity (https://sovrin.org). The major artifact of the SDK is a c-callable library."
-category = "main"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-base58 = "*"
-
-[package.extras]
-test = ["pytest (<3.7)", "pytest-asyncio (==0.10.0)", "base58"]
-
-[[package]]
 name = "pytz"
 version = "2021.1"
 description = "World timezone definitions, modern and historical"
@@ -896,14 +880,6 @@ secure = ["pyOpenSSL (>=0.14)", "cryptography (>=1.3.4)", "idna (>=2.0.0)", "cer
 socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 
 [[package]]
-name = "ursa-bbs-signatures"
-version = "1.0.1"
-description = ""
-category = "main"
-optional = false
-python-versions = ">=3.6.3"
-
-[[package]]
 name = "virtualenv"
 version = "20.4.7"
 description = "Virtual Python Environment builder"
@@ -978,7 +954,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6.9"
-content-hash = "432dc8756ef47a9124ae01cbd89b4eee5aa69545f7796913e298b75e81588ce6"
+content-hash = "07748d6c728af1739e70f7e156504628ecdf718738ec6a2174a48a4bdcaab2e0"
 
 [metadata.files]
 aiohttp = [
@@ -1531,9 +1507,6 @@ python-dateutil = [
     {file = "python-dateutil-2.8.1.tar.gz", hash = "sha256:73ebfe9dbf22e832286dafa60473e4cd239f8592f699aa5adaf10050e6e1823c"},
     {file = "python_dateutil-2.8.1-py2.py3-none-any.whl", hash = "sha256:75bb3f31ea686f1197762692a9ee6a7550b59fc6ca3a1f4b5d7e32fb98e2da2a"},
 ]
-python3-indy = [
-    {file = "python3-indy-1.16.0-post-54.tar.gz", hash = "sha256:99fe786fcb129075fa9593e431222738fe864ee20a8d3dde719c8219495eacfe"},
-]
 pytz = [
     {file = "pytz-2021.1-py2.py3-none-any.whl", hash = "sha256:eb10ce3e7736052ed3623d49975ce333bcd712c7bb19a58b9e2089d4057d0798"},
     {file = "pytz-2021.1.tar.gz", hash = "sha256:83a4a90894bf38e243cf052c8b58f381bfe9a7a483f6a9cab140bc7f702ac4da"},
@@ -1715,11 +1688,6 @@ unflatten = [
 urllib3 = [
     {file = "urllib3-1.26.5-py2.py3-none-any.whl", hash = "sha256:753a0374df26658f99d826cfe40394a686d05985786d946fbe4165b5148f5a7c"},
     {file = "urllib3-1.26.5.tar.gz", hash = "sha256:a7acd0977125325f516bda9735fa7142b909a8d01e8b2e4c8108d0984e6e0098"},
-]
-ursa-bbs-signatures = [
-    {file = "ursa_bbs_signatures-1.0.1-py3-none-macosx_10_9_x86_64.whl", hash = "sha256:245701789df0d6cda09faa6194b590c0ce6513b39d80fe8f1fe2a52b69a4b520"},
-    {file = "ursa_bbs_signatures-1.0.1-py3-none-manylinux2014_x86_64.whl", hash = "sha256:79f410a1f89855a4149af7adecaa22a5f427640f5d093f53670657394a9f9ef4"},
-    {file = "ursa_bbs_signatures-1.0.1-py3-none-win_amd64.whl", hash = "sha256:ffd5f8cf1518c706b372feccac5d727a9d6c64a68f54f4d109133c4101108368"},
 ]
 virtualenv = [
     {file = "virtualenv-20.4.7-py2.py3-none-any.whl", hash = "sha256:2b0126166ea7c9c3661f5b8e06773d28f83322de7a3ff7d06f0aed18c9de6a76"},
