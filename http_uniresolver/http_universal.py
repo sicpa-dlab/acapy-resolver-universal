@@ -2,12 +2,10 @@
 
 import logging
 import json
-import os
-from pathlib import Path
 from typing import Sequence
 
 import aiohttp
-import yaml
+
 from aries_cloudagent.config.injection_context import InjectionContext
 from aries_cloudagent.core.profile import Profile
 from aries_cloudagent.resolver.base import (
@@ -18,6 +16,53 @@ from aries_cloudagent.resolver.base import (
 )
 
 LOGGER = logging.getLogger(__name__)
+DEFAULT_CONFIGURATION = {
+    "endpoint": "https://dev.uniresolver.io/1.0/identifiers",
+    "methods": [
+        "sov",
+        "abt",
+        "btcr",
+        "erc725",
+        "dom",
+        "stack",
+        "ethr",
+        "web",
+        "v1",
+        "key",
+        "ipid",
+        "jolo",
+        "hacera",
+        "elem",
+        "seraphid",
+        "github",
+        "ccp",
+        "work",
+        "ont",
+        "kilt",
+        "evan",
+        "echo",
+        "factom",
+        "dock",
+        "trust",
+        "io",
+        "bba",
+        "bid",
+        "schema",
+        "ion",
+        "ace",
+        "gatc",
+        "unisot",
+        "icon",
+        "vaa",
+        "cy",
+        "nacl",
+        "sirius",
+        "mpg",
+        "trustbloc",
+        "hcr",
+        "neoid",
+    ],
+}
 
 
 class HTTPUniversalDIDResolver(BaseDIDResolver):
@@ -31,17 +76,12 @@ class HTTPUniversalDIDResolver(BaseDIDResolver):
 
     async def setup(self, _context: InjectionContext):
         """Preform setup, populate supported method list, configuration."""
-        config_file = os.environ.get(
-            "UNI_RESOLVER_CONFIG", Path(__file__).parent / "default_config.yml"
-        )
-        try:
-            with open(config_file) as input_yaml:
-                configuration = yaml.load(input_yaml, Loader=yaml.SafeLoader)
-        except FileNotFoundError as err:
-            raise ResolverError(
-                f"Failed to load configuration file for {self.__class__.__name__}"
-            ) from err
-        assert isinstance(configuration, dict)
+        plugin_conf = _context.settings.get("plugin_config", {}).get("http_uniresolver")
+
+        configuration = DEFAULT_CONFIGURATION
+        if plugin_conf:
+            configuration.update(plugin_conf)
+
         self.configure(configuration)
 
     def configure(self, configuration: dict):

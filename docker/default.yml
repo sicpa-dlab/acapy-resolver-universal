@@ -4,9 +4,10 @@ label: Aries Cloud Agent + HTTP Uniresovler Plugin
 admin: [0.0.0.0, 3001]
 admin-insecure-mode: true
 
-# Load toolbox plugin
+# Load plugin + config by file
 plugin:
   - http_uniresolver
+plugin-config: plugin-config.yaml
 
 # Transport
 inbound-transport:

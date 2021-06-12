@@ -120,11 +120,16 @@ def mock_client_session():
 @pytest.mark.asyncio
 async def test_resolve(profile, resolver, mock_client_session):
     mock_client_session.response = MockResponse(
-        200, {"didDocument": {"id": "did:example:123",
-                              "@context": "https://www.w3.org/ns/did/v1"}}
+        200,
+        {
+            "didDocument": {
+                "id": "did:example:123",
+                "@context": "https://www.w3.org/ns/did/v1",
+            }
+        },
     )
     doc = await resolver.resolve(profile, "did:sov:WRfXPg8dantKVubE3HX8pw")
-    assert doc.id == "did:example:123"
+    assert doc.get("id") == "did:example:123"
 
 
 @pytest.mark.asyncio
