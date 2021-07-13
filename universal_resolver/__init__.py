@@ -2,7 +2,7 @@
 
 from aries_cloudagent.config.injection_context import InjectionContext
 from aries_cloudagent.resolver.did_resolver_registry import DIDResolverRegistry
-from .http_universal import HTTPUniversalDIDResolver
+from .resolver import UniversalResolver
 
 
 async def setup(context: InjectionContext):
@@ -10,6 +10,6 @@ async def setup(context: InjectionContext):
 
     # Inject plugin
     registry = context.inject(DIDResolverRegistry)
-    resolver = HTTPUniversalDIDResolver()
+    resolver = UniversalResolver()
     await resolver.setup(context)
     registry.register(resolver)

@@ -65,11 +65,11 @@ DEFAULT_CONFIGURATION = {
 }
 
 
-class HTTPUniversalDIDResolver(BaseDIDResolver):
+class UniversalResolver(BaseDIDResolver):
     """Universal DID Resolver with HTTP bindings."""
 
     def __init__(self):
-        """Initialize HTTPUniversalDIDResolver."""
+        """Initialize UniversalResolver."""
         super().__init__(ResolverType.NON_NATIVE)
         self._endpoint = None
         self._supported_methods = None
