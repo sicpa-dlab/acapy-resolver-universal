@@ -7,7 +7,8 @@ from pathlib import Path
 
 import pytest
 
-from http_uniresolver import HTTPUniversalDIDResolver
+from universal_resolver import UniversalResolver
+from universal_resolver.resolver import DEFAULT_CONFIGURATION
 from aries_cloudagent.resolver.base import ResolverError
 
 CONFIG_PATH = Path(__file__).parent / "uniresolver_config.json"
@@ -26,8 +27,8 @@ def event_loop():
 
 @pytest.fixture(scope="module")
 async def resolver():
-    resolver = HTTPUniversalDIDResolver()
-    await resolver.setup(None)
+    resolver = UniversalResolver()
+    resolver.configure(DEFAULT_CONFIGURATION)
     yield resolver
 
 

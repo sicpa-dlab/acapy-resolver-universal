@@ -16,5 +16,5 @@ When starting up ACA-Py, load the plugin along with any other startup
 parameters.
 
 ```sh
-$ aca-py start --arg-file my_config.yml --plugin http_uniresolver
+$ aca-py start --arg-file my_config.yml --plugin universal_resolver
 ```

@@ -2,7 +2,7 @@ version: '3'
 services:
 
   resolver:
-    image: acapy-http-uniresolver
+    image: acapy-resolver-universal
     build:
       context: ..
       dockerfile: docker/Dockerfile

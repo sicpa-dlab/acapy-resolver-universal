@@ -65,18 +65,18 @@ DEFAULT_CONFIGURATION = {
 }
 
 
-class HTTPUniversalDIDResolver(BaseDIDResolver):
+class UniversalResolver(BaseDIDResolver):
     """Universal DID Resolver with HTTP bindings."""
 
     def __init__(self):
-        """Initialize HTTPUniversalDIDResolver."""
+        """Initialize UniversalResolver."""
         super().__init__(ResolverType.NON_NATIVE)
         self._endpoint = None
         self._supported_methods = None
 
-    async def setup(self, _context: InjectionContext):
+    async def setup(self, context: InjectionContext):
         """Preform setup, populate supported method list, configuration."""
-        plugin_conf = _context.settings.get("plugin_config", {}).get("http_uniresolver")
+        plugin_conf = context.settings.get("plugin_config", {}).get("http_uniresolver")
 
         configuration = DEFAULT_CONFIGURATION
         if plugin_conf:

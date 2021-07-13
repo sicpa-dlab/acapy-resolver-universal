@@ -5,22 +5,20 @@ markers = [
 ]
 
 [tool.poetry]
-name = "http-uniresolver"
+name = "acapy-resolver-universal"
 version = "0.1.0"
 description = "DID Resolver HTTP bindings for Universal Resolver for ACA-Py"
 authors = ["Daniel Bluhm <dbluhm@pm.me>", "Luis Gomez <luis.gomezalonso@sicpa.com>"]
 license = "Apache-2.0"
 readme = "README.md"
 repository="https://github.com/sicpa-dlab/aries-acapy-plugin-http-uniresolver"
+packages = [
+    { include = "universal_resolver" }
+]
 
 [tool.poetry.dependencies]
 python = "^3.6.9"
-ecdsa = "~=0.16.1"
-
-
-aries-cloudagent = {git = "https://github.com/hyperledger/aries-cloudagent-python", rev = "main"}
-
-
+aries-cloudagent = "0.7.0rc1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.2"
@@ -33,4 +31,3 @@ pre-commit = "^2.11.1"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
-

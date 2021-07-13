@@ -6,7 +6,7 @@ admin-insecure-mode: true
 
 # Load plugin + config by file
 plugin:
-  - http_uniresolver
+  - universal_resolver
 plugin-config: plugin-config.yaml
 
 # Transport
