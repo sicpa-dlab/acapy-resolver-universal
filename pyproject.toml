@@ -12,11 +12,13 @@ authors = ["Daniel Bluhm <dbluhm@pm.me>", "Luis Gomez <luis.gomezalonso@sicpa.co
 license = "Apache-2.0"
 readme = "README.md"
 repository="https://github.com/sicpa-dlab/aries-acapy-plugin-http-uniresolver"
+packages = [
+    { include = "universal_resolver" }
+]
 
 [tool.poetry.dependencies]
 python = "^3.6.9"
 aries-cloudagent = "0.7.0rc1"
-ecdsa = "~=0.16.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.2"
