@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from http_uniresolver import HTTPUniversalDIDResolver
+from universal_resolver import HTTPUniversalDIDResolver
 from aries_cloudagent.resolver.base import ResolverError
 
 CONFIG_PATH = Path(__file__).parent / "uniresolver_config.json"

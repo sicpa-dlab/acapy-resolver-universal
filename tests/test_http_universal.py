@@ -6,8 +6,8 @@ import pytest
 from asynctest import mock as async_mock
 
 from aries_cloudagent.resolver.base import DIDNotFound, ResolverError
-from http_uniresolver import http_universal as test_module
-from http_uniresolver.http_universal import HTTPUniversalDIDResolver
+from universal_resolver import http_universal as test_module
+from universal_resolver.http_universal import HTTPUniversalDIDResolver
 
 # pylint: disable=redefined-outer-name
 

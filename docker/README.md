@@ -6,13 +6,13 @@ Running ACA-Py with the http-uniresolver Plugin
 To build the container:
 
 ```sh
-$ docker build -f docker/Dockerfile --tag acapy-http-uniresolver .
+$ docker build -f docker/Dockerfile --tag acapy-resolver-universal .
 ```
 
 To start an agent using the default configuration:
 
 ```sh
-$ docker run -it -p 3000:3000 -p 3001:3001 --rm acapy-http-uniresolver
+$ docker run -it -p 3000:3000 -p 3001:3001 --rm acapy-resolver-universal
 ```
 
 For development purposes, it is often useful to use local versions of the code
@@ -24,8 +24,8 @@ and/or the http-uniresolver plugin (paths must be adapted to your environment):
 ```sh
 $ docker run -it -p 3000:3000 -p 3001:3001 --rm \
 	-v ../aries-cloudagent-python/aries_cloudagent:/home/indy/site-packages/aries_cloudagent:z \
-	-v ../aries-acapy-http-uniresolver/http_uniresolver:/home/indy/aries-acapy-plugin-http-uniresolver/http_uniresolver:z \
-	acapy-http-uniresolver
+	-v ../acapy-resolver-universal/universal_resolver:/home/indy/acapy-resolver-universal/universal_resolver:z \
+	acapy-resolver-universal
 ```
 
 ## Adjusting Parameters
@@ -33,7 +33,7 @@ $ docker run -it -p 3000:3000 -p 3001:3001 --rm \
 For each of the commands listed below, ensure the image has been built:
 
 ```sh
-$ docker build -t acapy-http-uniresolver .
+$ docker build -t acapy-resolver-universal .
 ```
 
 #### Listing configuration options
@@ -41,7 +41,7 @@ $ docker build -t acapy-http-uniresolver .
 To see a list of configuration options, run:
 
 ```sh
-$ docker run -it --rm acapy-http-uniresolver start --help
+$ docker run -it --rm acapy-resolver-universal start --help
 ```
 
 #### Command line
@@ -59,7 +59,7 @@ different port), while keeping the defaults:
 
 ```sh
 $ docker run -it -p 3000:3000 -p 3003:3003 --rm \
-    acapy-http-uniresolver start --arg-file default.yml --admin 0.0.0.0 3003
+    acapy-resolver-universal start --arg-file default.yml --admin 0.0.0.0 3003
 ```
 
 #### Configuration files
@@ -70,7 +70,7 @@ and specifying the file on startup:
 ```sh
 $ docker run -it -p 3000:3000 -p 3001:3001 --rm \
     -v ./configs:/local/configs:z \
-    acapy-http-uniresolver start --arg-file /local/configs/my_config.yml
+    acapy-resolver-universal start --arg-file /local/configs/my_config.yml
 ```
 
 #### Environment
@@ -80,5 +80,5 @@ Compose `env` files to load configuration when appropriate. To see a list of
 configuration options and the mapping to environment variables map, run:
 
 ```sh
-$ docker run -it --rm acapy-http-uniresolver start --help
+$ docker run -it --rm acapy-resolver-universal start --help
 ```
