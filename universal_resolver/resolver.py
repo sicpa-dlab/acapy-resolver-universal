@@ -74,9 +74,9 @@ class UniversalResolver(BaseDIDResolver):
         self._endpoint = None
         self._supported_methods = None
 
-    async def setup(self, _context: InjectionContext):
+    async def setup(self, context: InjectionContext):
         """Preform setup, populate supported method list, configuration."""
-        plugin_conf = _context.settings.get("plugin_config", {}).get("http_uniresolver")
+        plugin_conf = context.settings.get("plugin_config", {}).get("http_uniresolver")
 
         configuration = DEFAULT_CONFIGURATION
         if plugin_conf:
