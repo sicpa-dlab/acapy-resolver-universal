@@ -1,9 +1,9 @@
-FROM bcgovimages/von-image:py36-1.15-1
+FROM bcgovimages/von-image:py36-1.16-1
 
 RUN pip3 install --no-cache-dir poetry
 
 USER root
-COPY http_uniresolver http_uniresolver
+COPY universal_resolver universal_resolver
 COPY ./README.md .
 COPY ./setup.py .
 COPY ./pyproject.toml .
