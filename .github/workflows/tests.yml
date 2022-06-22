@@ -49,20 +49,6 @@ jobs:
     - name: Run unit tests with pytest
       run: |
         poetry run pytest ./tests
-
-  int:
-    name: Integration Tests
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Run integration tests
+    - name: Run integration tests with pytest
       run: |
-        docker-compose -f ./int/docker-compose.yml run tests
-    - name: Print logs on failure
-      if: failure()
-      run: |
-        docker-compose -f ./int/docker-compose.yml logs
-    - name: Clean up integration tests
-      if: always()
-      run: |
-        docker-compose -f ./int/docker-compose.yml down
+        poetry run pytest ./int
