@@ -51,4 +51,4 @@ jobs:
         poetry run pytest ./tests
     - name: Run integration tests with pytest
       run: |
-        poetry run pytest ./int
+        poetry run pytest -m int ./int
