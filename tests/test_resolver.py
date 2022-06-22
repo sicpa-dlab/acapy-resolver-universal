@@ -13,50 +13,10 @@ from universal_resolver.resolver import UniversalResolver
 
 
 @pytest.fixture
-def resolver():
+async def resolver():
     """Resolver fixture."""
     uni_resolver = UniversalResolver()
-    uni_resolver.configure(
-        {
-            "endpoint": "https://dev.uniresolver.io/1.0/identifiers",
-            "methods": [
-                "sov",
-                "abt",
-                "btcr",
-                "erc725",
-                "dom",
-                "stack",
-                "ethr",
-                "web",
-                "v1",
-                "key",
-                "ipid",
-                "jolo",
-                "hacera",
-                "elem",
-                "seraphid",
-                "github",
-                "ccp",
-                "work",
-                "ont",
-                "kilt",
-                "evan",
-                "echo",
-                "factom",
-                "dock",
-                "trust",
-                "io",
-                "bba",
-                "bid",
-                "schema",
-                "ion",
-                "ace",
-                "gatc",
-                "unisot",
-                "icon",
-            ],
-        }
-    )
+    await uni_resolver.configure("https://dev.uniresolver.io")
     yield uni_resolver
 
 
@@ -136,7 +96,7 @@ async def test_resolve(profile, resolver, mock_client_session):
 async def test_resolve_not_found(profile, resolver, mock_client_session):
     mock_client_session.response = MockResponse(404, "Not found")
     with pytest.raises(DIDNotFound):
-        await resolver.resolve(profile, "did:sov:1234567")
+        await resolver.resolve(profile, "did:sov:WRfXPg8dantKVubE3HX8pw")
 
 
 @pytest.mark.asyncio
@@ -145,4 +105,4 @@ async def test_resolve_unexpeceted_status(profile, resolver, mock_client_session
         500, "Server failed to complete request"
     )
     with pytest.raises(ResolverError):
-        await resolver.resolve(profile, "did:sov:123")
+        await resolver.resolve(profile, "did:sov:WRfXPg8dantKVubE3HX8pw")
