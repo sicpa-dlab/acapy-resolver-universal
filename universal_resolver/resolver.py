@@ -3,7 +3,7 @@
 import logging
 import json
 import re
-from typing import Pattern, cast
+from typing import Optional, Pattern, cast
 
 import aiohttp
 
@@ -24,10 +24,12 @@ async def _fetch_resolver_props(endpoint: str) -> dict:
     """Retrieve universal resolver properties."""
     async with aiohttp.ClientSession() as session:
         async with session.get(f"{endpoint}/1.0/properties/") as resp:
-            return await resp.json()
+            if resp.status >= 200 and resp.status < 400:
+                return await resp.json()
+            raise ValueError(await resp.text())
 
 
-async def supported_methods_pattern(endpoint: str) -> Pattern:
+async def _get_supported_methods_pattern(endpoint: str) -> Pattern:
     props = await _fetch_resolver_props(endpoint)
     return re.compile(
         r"(?:" + "|".join(driver["http"]["pattern"] for driver in props.values()) + ")"
@@ -52,10 +54,17 @@ class UniversalResolver(BaseDIDResolver):
         )
         await self.configure(endpoint)
 
-    async def configure(self, endpoint: str):
+    async def configure(
+        self,
+        endpoint: Optional[str] = None,
+        supported_methods_pattern: Optional[Pattern] = None,
+    ):
         """Do configuration."""
-        self._endpoint = endpoint
-        self._supported_methods_pattern = await supported_methods_pattern(endpoint)
+        self._endpoint = endpoint or DEFAULT_ENDPOINT
+        self._supported_methods_pattern = (
+            supported_methods_pattern
+            or await _get_supported_methods_pattern(self._endpoint)
+        )
 
     @property
     def supported_did_regex(self) -> Pattern:

@@ -1,5 +1,6 @@
 """Test universal resolver with http bindings."""
 
+import re
 from typing import Dict, Union
 
 import pytest
@@ -16,7 +17,7 @@ from universal_resolver.resolver import UniversalResolver
 async def resolver():
     """Resolver fixture."""
     uni_resolver = UniversalResolver()
-    await uni_resolver.configure("https://dev.uniresolver.io")
+    await uni_resolver.configure("https://example.com", re.compile("^did:sov:.*$"))
     yield uni_resolver
 
 
