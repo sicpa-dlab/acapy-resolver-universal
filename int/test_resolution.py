@@ -4,17 +4,17 @@ import asyncio
 import json
 import logging
 from pathlib import Path
+from aries_cloudagent.config.injection_context import InjectionContext
 
 import pytest
 
 from universal_resolver import UniversalResolver
-from universal_resolver.resolver import DEFAULT_CONFIGURATION
 from aries_cloudagent.resolver.base import ResolverError
 
 CONFIG_PATH = Path(__file__).parent / "uniresolver_config.json"
 TEST_CONFIG = json.loads(CONFIG_PATH.read_text())
 TEST_DIDS = [
-    did for driver in TEST_CONFIG["drivers"] for did in driver["testIdentifiers"]
+    did for driver in TEST_CONFIG.values() for did in driver["http"]["testIdentifiers"]
 ]
 
 
@@ -26,9 +26,20 @@ def event_loop():
 
 
 @pytest.fixture(scope="module")
-async def resolver():
+def context():
+    yield InjectionContext(
+        settings={
+            "plugin_config": {
+                "http_uniresolver": {"endpoint": "http://dev.uniresolver.io"}
+            }
+        }
+    )
+
+
+@pytest.fixture(scope="module")
+async def resolver(context: InjectionContext):
     resolver = UniversalResolver()
-    resolver.configure(DEFAULT_CONFIGURATION)
+    await resolver.setup(context)
     yield resolver
 
 
