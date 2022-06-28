@@ -16,9 +16,10 @@ from universal_resolver.resolver import UniversalResolver
 @pytest.fixture
 async def resolver():
     """Resolver fixture."""
-    uni_resolver = UniversalResolver()
-    await uni_resolver.configure("https://example.com", re.compile("^did:sov:.*$"))
-    yield uni_resolver
+    yield UniversalResolver(
+        endpoint="https://example.com",
+        supported_did_regex=re.compile("^did:sov:.*$")
+    )
 
 
 @pytest.fixture
