@@ -17,8 +17,7 @@ from universal_resolver.resolver import UniversalResolver
 async def resolver():
     """Resolver fixture."""
     yield UniversalResolver(
-        endpoint="https://example.com",
-        supported_did_regex=re.compile("^did:sov:.*$")
+        endpoint="https://example.com", supported_did_regex=re.compile("^did:sov:.*$")
     )
 
 
