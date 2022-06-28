@@ -31,7 +31,9 @@ async def _fetch_resolver_props(endpoint: str) -> dict:
 
 async def _get_supported_did_regex(endpoint: str) -> Pattern:
     props = await _fetch_resolver_props(endpoint)
-    return _compile_supported_did_regex(driver["http"]["pattern"] for driver in props.values())
+    return _compile_supported_did_regex(
+        driver["http"]["pattern"] for driver in props.values()
+    )
 
 
 def _compile_supported_did_regex(patterns: Iterable[Union[str, Pattern]]):
