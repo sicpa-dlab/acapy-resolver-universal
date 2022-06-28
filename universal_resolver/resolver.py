@@ -3,7 +3,7 @@
 import logging
 import json
 import re
-from typing import Optional, Pattern, cast
+from typing import Iterable, Optional, Pattern, Union
 
 import aiohttp
 
@@ -29,47 +29,60 @@ async def _fetch_resolver_props(endpoint: str) -> dict:
             raise ValueError(await resp.text())
 
 
-async def _get_supported_methods_pattern(endpoint: str) -> Pattern:
+async def _get_supported_did_regex(endpoint: str) -> Pattern:
     props = await _fetch_resolver_props(endpoint)
+    return _compile_supported_did_regex(driver["http"]["pattern"] for driver in props.values())
+
+
+def _compile_supported_did_regex(patterns: Iterable[Union[str, Pattern]]):
+    """Create regex from list of regex."""
     return re.compile(
-        r"(?:" + "|".join(driver["http"]["pattern"] for driver in props.values()) + ")"
+        "(?:"
+        + "|".join(
+            [
+                pattern.pattern if isinstance(pattern, Pattern) else pattern
+                for pattern in patterns
+            ]
+        )
+        + ")"
     )
 
 
 class UniversalResolver(BaseDIDResolver):
     """Universal DID Resolver with HTTP bindings."""
 
-    def __init__(self):
+    def __init__(
+        self,
+        *,
+        endpoint: Optional[str] = None,
+        supported_did_regex: Optional[Pattern] = None,
+    ):
         """Initialize UniversalResolver."""
         super().__init__(ResolverType.NON_NATIVE)
-        self._endpoint = None
-        self._supported_methods = None
+        self._endpoint = endpoint
+        self._supported_did_regex = supported_did_regex
 
     async def setup(self, context: InjectionContext):
         """Preform setup, populate supported method list, configuration."""
-        endpoint = (
-            cast(dict, context.settings.get("plugin_config", {}))
-            .get("http_uniresolver", {})
-            .get("endpoint", DEFAULT_ENDPOINT)
-        )
-        await self.configure(endpoint)
+        settings = context.settings.for_plugin("http_uniresolver")
+        endpoint = settings.get("endpoint", DEFAULT_ENDPOINT)
+        if settings.get("supported_did_regex"):
+            supported_did_regex = _compile_supported_did_regex(
+                settings.get("supported_did_regex", [])
+            )
+        else:
+            supported_did_regex = await _get_supported_did_regex(endpoint)
 
-    async def configure(
-        self,
-        endpoint: Optional[str] = None,
-        supported_methods_pattern: Optional[Pattern] = None,
-    ):
-        """Do configuration."""
-        self._endpoint = endpoint or DEFAULT_ENDPOINT
-        self._supported_methods_pattern = (
-            supported_methods_pattern
-            or await _get_supported_methods_pattern(self._endpoint)
-        )
+        self._endpoint = endpoint
+        self._supported_did_regex = supported_did_regex
 
     @property
     def supported_did_regex(self) -> Pattern:
         """Return supported methods regex."""
-        return self._supported_methods_pattern
+        if not self._supported_did_regex:
+            raise ResolverError("Resolver has not been set up")
+
+        return self._supported_did_regex
 
     async def _resolve(self, _profile: Profile, did: str) -> dict:
         """Resolve DID through remote universal resolver."""
