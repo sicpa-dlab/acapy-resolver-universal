@@ -1,3 +1,10 @@
+# Archived
+
+This project has been contributed directly to ACA-Py starting from version
+0.8.0/1.0.0 and can be used with the `--universal-resolver` flag.
+
+See this PR for additional details: https://github.com/hyperledger/aries-cloudagent-python/pull/1866
+
 ACA-Py Plugin - HTTP Universal Resolver
 =======================================
 
